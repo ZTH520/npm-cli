@@ -41,7 +41,8 @@
     "dev": "tsup --watch src",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "preinstall": "npx only-allow pnpm"
+    "preinstall": "npx only-allow pnpm",
+    "postinstall": "simple-git-hooks"
   },
   "devDependencies": {
     "@antfu/eslint-config-ts": "^0.39.8",
