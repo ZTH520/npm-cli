@@ -1,0 +1,11 @@
+{
+  "extends": "@antfu/eslint-config-ts",
+  "overrides": [
+    {
+        "files": ["scripts/**"],
+        "rules": {
+            "n/prefer-global/process": "off"
+        }
+    }
+  ]
+}

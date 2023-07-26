@@ -1,0 +1,21 @@
+# Logs                      日志
+Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependency directories    依赖目录
+node_modules/
+
+# build file                生成
+dist/
+
+# IDE                       编辑器相关
+.vscode
+.idea
+
+# Lock files                锁定文件
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
