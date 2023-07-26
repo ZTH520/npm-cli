@@ -2,6 +2,13 @@
   "extends": "@antfu/eslint-config-ts",
   "overrides": [
     {
+        "files": ["src/utils.ts"],
+        "rules": {
+            "no-console": "off",
+            "@typescript-eslint/ban-types": "off"
+        }
+    },
+    {
         "files": ["scripts/**"],
         "rules": {
             "n/prefer-global/process": "off"

@@ -1,7 +1,7 @@
 import type { Options } from 'tsup'
 
 export const tsup: Options = {
-  entry: ['index.ts'],
+  entry: ['src/index.ts'],
   format: ['cjs', 'esm'],
   dts: true,
   splitting: true,
