@@ -9,6 +9,12 @@
     "strictNullChecks": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "jsx": "preserve"
-  }
+    "jsx": "preserve",
+    "types": ["node"]
+  },
+  "include": [
+    "src/**/*",
+    "*.d.ts"
+  ],
+  "exclude": ["node_modules", "dist"]
 }

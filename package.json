@@ -38,6 +38,7 @@
   },
   "scripts": {
     "test": "node dist/index.js",
+    "serve": "esno src/index.ts",
     "build": "tsup",
     "dev": "tsup --watch src",
     "lint": "eslint .",
@@ -46,10 +47,12 @@
     "postinstall": "simple-git-hooks"
   },
   "dependencies": {
+    "enquirer": "^2.4.0",
     "picocolors": "^1.0.0"
   },
   "devDependencies": {
     "@antfu/eslint-config-ts": "^0.39.8",
+    "@types/node": "^20.4.5",
     "eslint": "^8.45.0",
     "esno": "^0.17.0",
     "lint-staged": "^13.2.3",

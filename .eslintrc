@@ -9,7 +9,7 @@
         }
     },
     {
-        "files": ["scripts/**"],
+        "files": ["scripts/**", "src/**"],
         "rules": {
             "n/prefer-global/process": "off"
         }
