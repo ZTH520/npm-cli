@@ -8,31 +8,39 @@ import type prompt from './prompt'
 
 // ------------- typescript definition -------------
 type TMessageColor = 'red' | 'green' | 'yellow'
+export type TLifecycle = 'config' | 'success' | 'before:publish' | 'after:publish' | 'before:tag' | 'after:tag' | 'before:release' | 'after:release'
 
 export interface TMessageKey {
   COSTOM: string
 }
 
 export interface TPlugin {
-  ctx: Promise<TContext>
+  (ctx: TContext): Promise<any>
+  lifecycle: TLifecycle
 }
 
 export interface TContext {
+  currentLifecycle: TLifecycle
   config: {
     registry?: string
     logPrefix?: string
+    pkgName?: string
     packageManage?: 'npm' | 'yarn' | 'pnpm'
     allowedBranch?: string[]
     ignoreGitChangeFiles?: string[]
   }
+  plugins: TPlugin[]
   restart: () => void
   quit: () => void
   exec: typeof exec
   prompt: typeof prompt
   shared: {
     nextVersion?: string
+    waitDoPlugins?: TPlugin[]
+    [x: string]: any
   }
   spinner: ReturnType<typeof initSpinner>
+  runningLifecycle?: TLifecycle
   log?: ReturnType<typeof initLog>
   pkg?: {
     [key: string]: any

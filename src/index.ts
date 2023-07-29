@@ -1,11 +1,15 @@
 import { createDefaultConfig, exec, initLog, initSpinner } from './utils'
 import prompt from './prompt'
 import pkgHooks from './pkg'
-import type { TContext } from './utils'
+import { config } from './plugins'
+import type { TContext, TPlugin } from './utils'
 
-// import { load } from './pkg'
-async function createContext() {
+async function createContext(userPlugins: TPlugin[]) {
+  const outPlugins = userPlugins || []
+  outPlugins.push(...[config])
+  const plugins = [...outPlugins]
   const ctx: TContext = {
+    currentLifecycle: 'config',
     config: createDefaultConfig(),
     shared: {},
     restart: () => {},
@@ -15,14 +19,15 @@ async function createContext() {
     },
     exec,
     prompt,
+    plugins,
     spinner: initSpinner('cyan'),
   }
   ctx.pkg = pkgHooks.load(ctx)
   return ctx as Required<TContext>
 }
 
-export async function cli() {
-  const ctx = createContext()
+export async function cli(userPlugins: TPlugin[]) {
+  const ctx = createContext(userPlugins)
   return ctx
 }
 
