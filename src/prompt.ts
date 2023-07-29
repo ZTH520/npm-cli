@@ -20,7 +20,7 @@ interface TAnyObj {
   [key: string]: any
 }
 
-export async function comfirm<T extends TPromptReturnKey>(message: string, initial: boolean = true) {
+async function comfirm<T extends TPromptReturnKey>(message: string, initial: boolean = true) {
   const { confirmValue } = await enquirer.prompt<T>({
     type: 'confirm',
     name: 'confirmValue',
@@ -30,7 +30,7 @@ export async function comfirm<T extends TPromptReturnKey>(message: string, initi
   return confirmValue
 }
 
-export async function input<T extends TPromptReturnKey>(message: string, initial: string = '') {
+async function input<T extends TPromptReturnKey>(message: string, initial: string = '') {
   const { inputValue } = await enquirer.prompt<T>({
     type: 'input',
     name: 'inputValue',
@@ -40,7 +40,7 @@ export async function input<T extends TPromptReturnKey>(message: string, initial
   return inputValue
 }
 
-export async function select<T extends TPromptReturnKey>(choices: (string | Choice)[], message: string) {
+async function select<T extends TPromptReturnKey>(choices: (string | Choice)[], message: string) {
   const { selectValue } = await enquirer.prompt<T>({
     type: 'select',
     name: 'selectValue',
@@ -50,7 +50,7 @@ export async function select<T extends TPromptReturnKey>(choices: (string | Choi
   return selectValue
 }
 
-export async function form(choices: { name: string; message: string; initial?: string }[], message: string, name: string = 'user') {
+async function form(choices: { name: string; message: string; initial?: string }[], message: string, name: string = 'user') {
   const { [name]: user } = await enquirer.prompt<TAnyObj>({
     type: 'form',
     name,
@@ -58,4 +58,11 @@ export async function form(choices: { name: string; message: string; initial?: s
     choices,
   })
   return user
+}
+
+export default {
+  comfirm,
+  input,
+  select,
+  form,
 }
