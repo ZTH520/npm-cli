@@ -2,8 +2,11 @@ import pico from 'picocolors'
 import ora from 'ora'
 import semver from 'semver'
 import { execa } from 'execa'
-import type { Options as EOptions } from 'execa'
 import type { Color as SColor } from 'ora'
+import type { Options as EOptions } from 'execa'
+import type { IPkg } from './pkg'
+import type { createRelease, createTag, publishNpm } from './steps'
+import type { createPlugin } from './plugins'
 import type prompt from './prompt'
 
 // ------------- typescript definition -------------
@@ -26,6 +29,7 @@ export interface TContext {
     logPrefix?: string
     pkgName?: string
     packageManage?: 'npm' | 'yarn' | 'pnpm'
+    firstCall?: 'createRelease' | 'createTag' | 'publishNpm'
     allowedBranch?: string[]
     ignoreGitChangeFiles?: string[]
   }
@@ -39,12 +43,16 @@ export interface TContext {
     waitDoPlugins?: TPlugin[]
     [x: string]: any
   }
+  createTag: typeof createTag
+  createRelease: typeof createRelease
+  publishNpm: typeof publishNpm
   spinner: ReturnType<typeof initSpinner>
-  runningLifecycle?: TLifecycle
+  runningLifecycle?: TPlugin
+  runPluginTasks?: ReturnType<typeof createPlugin>
   log?: ReturnType<typeof initLog>
   pkg?: {
     [key: string]: any
-  }
+  } & IPkg
 }
 // ------------- variable definition -------------
 export const PKG_NAME = 'npm-cli'
@@ -106,5 +114,6 @@ export function createDefaultConfig() {
     ],
     packageManage: 'pnpm',
     registry: 'https://registry.npmjs.org/',
+    firstCall: 'createTag',
   } as TContext['config']
 }

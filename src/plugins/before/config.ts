@@ -8,7 +8,7 @@ const config: TPlugin = async function (ctx: TContext) {
       ctx.log?.(
         'COSTOM',
         'red',
-        `package.json中的name（${pkg.name}）与配置的pkgName（${ctx.config.pkgName}）不一致`,
+        `package.json中的name: (${pkg.name}) 与配置的pkgName: (${ctx.config.pkgName}) 不一致`,
       )
       ctx.quit()
     }
