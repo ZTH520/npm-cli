@@ -9,7 +9,7 @@ const config: TPlugin = async function (ctx: TContext) {
   ctx.config.ignoreGitChangeFiles?.push(
     ...['scripts/publish.ts', 'package.json'],
   )
-  ctx.config.pkgName = '@zthCn/npm-cli'
+  ctx.config.pkgName = '@cn_zth/npm-cli'
   ctx.config.firstCall = 'publishNpm'
 }
 config.lifecycle = 'config'
