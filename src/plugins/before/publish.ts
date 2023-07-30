@@ -17,8 +17,9 @@ const publish: TPlugin = async function (ctx: TContext) {
 
   try {
     ctx.spinner.start()
+    const loginned = await ctx.exec('npm', ['whoami', '--registry', registry])
+    ctx.spinner.stop()
 
-    const loginned = await ctx.exec('git', ['whoami', '--registry', registry])
     if (loginned) {
       if (!(await ctx.prompt.comfirm(msgs.user(loginned))))
         ctx.quit()

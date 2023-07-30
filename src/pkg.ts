@@ -5,7 +5,7 @@ import type { TContext } from './utils'
 export interface IPkg {
   name: string
   version: string
-  script: string
+  scripts: string
   url: string
 }
 

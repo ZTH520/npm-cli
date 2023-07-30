@@ -5,6 +5,8 @@ import { createRelease, createTag, publishNpm } from './steps'
 import { afterPublish, beforePublish, config, createPlugin, success } from './plugins'
 import { createDefaultConfig, exec, getNextVersion, initLog, initSpinner } from './utils'
 
+export type { TContext, TPlugin }
+
 async function setBaseVersion(ctx: TContext) {
   const guessVersion = getNextVersion(ctx.pkg!.version)
   const version = await ctx.prompt.input('Please confirm the version number,请确认发布的版本号', guessVersion)

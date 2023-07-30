@@ -1,7 +1,7 @@
 {
   "name": "@zthCn/npm-cli",
   "type": "module",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "packageManager": "pnpm@8.6.5",
   "description": "",
   "author": "zthCn",
@@ -37,14 +37,14 @@
     "node": ">=14"
   },
   "scripts": {
-    "test": "node dist/index.js",
     "serve": "esno src/index.ts",
     "build": "tsup",
     "dev": "tsup --watch src",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "preinstall": "npx only-allow pnpm",
-    "postinstall": "simple-git-hooks"
+    "postinstall": "simple-git-hooks",
+    "publish:cli": "esno scripts/publish.ts"
   },
   "dependencies": {
     "enquirer": "^2.4.0",
