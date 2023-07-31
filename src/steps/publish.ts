@@ -29,6 +29,6 @@ export async function publish(this: TContext) {
     await this.exec('npm', ['publish', '--access', 'public'])
     this.spinner.stop()
 
-    this.runPluginTasks?.('after:publish')
+    await this.runPluginTasks?.('after:publish')
   }
 }

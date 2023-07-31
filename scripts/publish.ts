@@ -84,7 +84,7 @@ const success: TPlugin = async (ctx: TContext) => {
 success.lifecycle = 'success'
 
 const before: TPlugin[] = [config, publishBefore]
-const after: TPlugin[] = [success, publishAfter, afterTag];
+const after: TPlugin[] = [publishAfter, afterTag, success];
 
 (async () => {
   await cli([...before, ...after])
