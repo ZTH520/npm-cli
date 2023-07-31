@@ -46,7 +46,8 @@
     "lint:fix": "eslint . --fix",
     "preinstall": "npx only-allow pnpm",
     "postinstall": "simple-git-hooks",
-    "publish:cli": "esno scripts/publish.ts"
+    "publish:cli": "esno scripts/publish.ts",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
   },
   "dependencies": {
     "enquirer": "^2.4.0",
@@ -60,6 +61,7 @@
     "@antfu/eslint-config-ts": "^0.39.8",
     "@types/node": "^20.4.5",
     "@types/semver": "^7.5.0",
+    "conventional-changelog-cli": "^3.0.0",
     "eslint": "^8.45.0",
     "esno": "^0.17.0",
     "lint-staged": "^13.2.3",

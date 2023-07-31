@@ -16,7 +16,8 @@ config.lifecycle = 'config'
 
 const msgs = {
   isBuild: 'whether or not build,是否打包',
-  selectScript: 'select script,选择打包脚本',
+  isChangeLog: 'whether or not generation CHANGELOG,是否生成 CHANGELOG',
+  selectScript: 'select script,选择脚本',
 }
 const publishBefore: TPlugin = async (ctx: TContext) => {
   if (await ctx.prompt.comfirm(msgs.isBuild)) {
@@ -43,7 +44,42 @@ const afterTag: TPlugin = async (ctx: TContext) => {
 afterTag.lifecycle = 'after:tag'
 
 const success: TPlugin = async (ctx: TContext) => {
-  ctx.log?.('COSTOM', 'green', '操作完成')
+  if (await ctx.prompt.comfirm(msgs.isChangeLog)) {
+    ctx.spinner.start()
+    const logScript = await ctx.prompt.select(
+      Object.keys(ctx.pkg!.scripts),
+      msgs.selectScript,
+    )
+    await ctx.exec(ctx.config.packageManage!, ['run', logScript])
+    ctx.log?.('COSTOM', 'green', 'Generated success, 已生成 CHANGELOG')
+    ctx.spinner.stop()
+
+    if (await ctx.prompt.comfirm('是否将文件变动推送到远程仓库')) {
+      const form = await ctx.prompt.form(
+        [
+          {
+            name: 'remark',
+            message: '请输入commit备注',
+            initial: `release:${ctx.shared.nextVersion}`,
+          },
+        ],
+        '请填写表单',
+      )
+
+      await ctx.exec('git', ['add', '.'])
+      await ctx.exec('git', ['commit', '-m', form.remark])
+
+      try {
+        ctx.spinner.start()
+        await ctx.exec('git', ['push'])
+        ctx.spinner.stop()
+        ctx.log?.('COSTOM', 'green', '推送成功~~')
+      }
+      catch (error) {
+        ctx.log?.('COSTOM', 'yellow', '推送失败,请手动执行')
+      }
+    }
+  }
 }
 success.lifecycle = 'success'
 
