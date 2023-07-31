@@ -60,7 +60,7 @@ const success: TPlugin = async (ctx: TContext) => {
           {
             name: 'remark',
             message: '请输入commit备注',
-            initial: `release:${ctx.shared.nextVersion}`,
+            initial: `release: ${ctx.shared.nextVersion}`,
           },
         ],
         '请填写表单',
