@@ -10,7 +10,7 @@ const config: TPlugin = async function (ctx: TContext) {
     ...['scripts/publish.ts', 'package.json'],
   )
   ctx.config.pkgName = '@cn_zth/npm-cli'
-  ctx.config.firstCall = 'publishNpm'
+  // ctx.config.firstCall = 'publishNpm'
 }
 config.lifecycle = 'config'
 
