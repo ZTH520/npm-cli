@@ -5,9 +5,10 @@ import { execa } from 'execa'
 import type { Color as SColor } from 'ora'
 import type { Options as EOptions } from 'execa'
 import type { IPkg } from './pkg'
-import type { createRelease, createTag, publishNpm } from './steps'
-import type { createPlugin } from './plugins'
 import type prompt from './prompt'
+import type validate from './validate'
+import type { createPlugin } from './plugins'
+import type { createRelease, createTag, initGithubActions, publishNpm } from './steps'
 
 // ------------- typescript definition -------------
 type TMessageColor = 'red' | 'green' | 'yellow'
@@ -41,11 +42,15 @@ export interface TContext {
   shared: {
     nextVersion?: string
     waitDoPlugins?: TPlugin[]
+    gitRepoUrl?: string
     [x: string]: any
   }
+  validate: typeof validate
   createTag: typeof createTag
   createRelease: typeof createRelease
   publishNpm: typeof publishNpm
+  initGithubActions: typeof initGithubActions
+  cleanAfterPlugins: typeof cleanAfterPlugins
   spinner: ReturnType<typeof initSpinner>
   runningLifecycle?: TPlugin
   runPluginTasks?: ReturnType<typeof createPlugin>
@@ -100,6 +105,14 @@ export function getNextVersion(version: string) {
   const minor = semver.minor(version)
   const patch = semver.patch(version)
   return isValid ? `${major}.${minor}.${patch + 1}` : ''
+}
+
+export function cleanAfterPlugins(this: TContext) {
+  const waitDoPlugins = this.shared.waitDoPlugins || []
+  const index = waitDoPlugins.findIndex(p => p === this.runningLifecycle)
+
+  if (index > -1)
+    this.shared.waitDoPlugins = this.shared.waitDoPlugins?.slice(0, index + 1)
 }
 
 export function createDefaultConfig() {

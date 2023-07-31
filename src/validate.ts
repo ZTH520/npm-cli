@@ -1,3 +1,5 @@
+import { resolve } from 'node:path'
+import { existsSync } from 'node:fs'
 import type { TContext } from './utils'
 
 async function validateBranch(ctx: TContext) {
@@ -29,7 +31,25 @@ async function validateGitClean(ctx: TContext) {
   return true
 }
 
+async function validateGithubAction(ctx: TContext) {
+  const prefix = resolve(process.cwd(), '.github', 'workflows')
+  const msg = `检测到您还未配置github Actions,是否允许 ${ctx.config.logPrefix} 帮您自动创建？`
+
+  if (
+    !existsSync(resolve(prefix, 'release.yml'))
+    && !existsSync(resolve(prefix, 'release.yaml'))
+  ) {
+    if (await ctx.prompt.comfirm(msg))
+      await ctx.initGithubActions('', prefix)
+    else
+      return false
+  }
+
+  return true
+}
+
 export default {
   validateBranch,
   validateGitClean,
+  validateGithubAction,
 }

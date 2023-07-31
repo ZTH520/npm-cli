@@ -10,7 +10,7 @@ const config: TPlugin = async function (ctx: TContext) {
     ...['scripts/publish.ts', 'package.json'],
   )
   ctx.config.pkgName = '@cn_zth/npm-cli'
-  ctx.config.firstCall = 'publishNpm'
+  // ctx.config.firstCall = 'publishNpm'
 }
 config.lifecycle = 'config'
 
@@ -32,8 +32,24 @@ const publishBefore: TPlugin = async (ctx: TContext) => {
 }
 publishBefore.lifecycle = 'before:publish'
 
-const before: TPlugin[] = [config, publishBefore];
+const publishAfter: TPlugin = async (ctx: TContext) => {
+  await ctx.createTag()
+}
+publishAfter.lifecycle = 'after:publish'
+
+const afterTag: TPlugin = async (ctx: TContext) => {
+  await ctx.createRelease()
+}
+afterTag.lifecycle = 'after:tag'
+
+const success: TPlugin = async (ctx: TContext) => {
+  ctx.log?.('COSTOM', 'green', '操作完成')
+}
+success.lifecycle = 'success'
+
+const before: TPlugin[] = [config, publishBefore]
+const after: TPlugin[] = [success, publishAfter, afterTag];
 
 (async () => {
-  await cli([...before])
+  await cli([...before, ...after])
 })()

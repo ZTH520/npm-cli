@@ -23,12 +23,14 @@ export async function tag(this: TContext) {
 
   if (!form.tagName) {
     this.log?.('COSTOM', 'yellow', 'Please fill in tag name, 请填写 tag 名称')
-    this.createTag()
+    this.cleanAfterPlugins()
+    await this.createTag()
     return
   }
   else if (!REG_TAG.test(form.tagName)) {
     this.log?.('COSTOM', 'yellow', 'Tag must consist of v and numbers,tag必须由v加数字组成,如v1.0.0')
-    this.createTag()
+    this.cleanAfterPlugins()
+    await this.createTag()
     return
   }
 

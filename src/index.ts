@@ -1,9 +1,10 @@
 import prompt from './prompt'
 import pkgHooks from './pkg'
+import validate from './validate'
 import type { TContext, TMessageKey, TPlugin } from './utils'
-import { createRelease, createTag, publishNpm } from './steps'
-import { afterPublish, beforePublish, config, createPlugin, success } from './plugins'
-import { createDefaultConfig, exec, getNextVersion, initLog, initSpinner } from './utils'
+import { createRelease, createTag, initGithubActions, publishNpm } from './steps'
+import { afterPublish, beforePublish, beforeRelease, config, createPlugin, success } from './plugins'
+import { cleanAfterPlugins, createDefaultConfig, exec, getNextVersion, initLog, initSpinner } from './utils'
 
 export type { TContext, TPlugin }
 
@@ -19,6 +20,7 @@ async function createContext(userPlugins: TPlugin[]) {
   const inPlugins = [
     beforePublish,
     afterPublish,
+    beforeRelease,
   ]
   const plugins = [...inPlugins, ...outPlugins]
   const ctx: TContext = {
@@ -33,9 +35,12 @@ async function createContext(userPlugins: TPlugin[]) {
     exec,
     prompt,
     plugins,
+    validate,
     createTag,
     createRelease,
     publishNpm,
+    initGithubActions,
+    cleanAfterPlugins,
     spinner: initSpinner('cyan'),
   }
   ctx.pkg = pkgHooks.load(ctx)
