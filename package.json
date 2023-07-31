@@ -1,7 +1,7 @@
 {
   "name": "@cn_zth/npm-cli",
   "type": "module",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "packageManager": "pnpm@8.6.5",
   "description": "",
   "author": "zthCn",
@@ -31,6 +31,7 @@
   "types": "dist/index.d.ts",
   "files": [
     "dist",
+    ".github",
     "*.d.ts"
   ],
   "engines": {
