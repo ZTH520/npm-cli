@@ -9,7 +9,7 @@ const publish: TPlugin = async function (ctx: TContext) {
         {
           name: 'remark',
           message: '请输入commit备注',
-          initial: `feat: publish ${ctx.shared.nextVersion}`,
+          initial: `feat: next version ${ctx.shared.nextVersion}`,
         },
       ],
       '请填写表单',
