@@ -18,7 +18,7 @@ async function validateGitClean(ctx: TContext) {
   if (uncleaned) {
     const changes = uncleaned.split('\n')
     const restChanges = changes.reduce((acc: string[], cur) => {
-      const isExist = ignoreGitChangeFiles.includes(cur)
+      const isExist = ignoreGitChangeFiles.some(f => cur.includes(f))
       if (!isExist)
         acc.push(cur)
       return acc
