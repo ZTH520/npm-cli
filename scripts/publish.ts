@@ -52,8 +52,8 @@ const success: TPlugin = async (ctx: TContext) => {
       msgs.selectScript,
     )
     await ctx.exec(ctx.config.packageManage!, ['run', logScript])
-    ctx.log?.('COSTOM', 'green', 'Generated success, 已生成 CHANGELOG')
     ctx.spinner.stop()
+    ctx.log?.('COSTOM', 'green', 'Generated success, 已生成 CHANGELOG')
 
     if (await ctx.prompt.comfirm('是否将文件变动推送到远程仓库')) {
       const form = await ctx.prompt.form(
