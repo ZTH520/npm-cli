@@ -38,7 +38,6 @@
     "node": ">=14"
   },
   "scripts": {
-    "serve": "esno src/index.ts",
     "build": "tsup",
     "dev": "tsup --watch src",
     "lint": "eslint .",
@@ -46,7 +45,8 @@
     "preinstall": "npx only-allow pnpm",
     "postinstall": "simple-git-hooks",
     "publish:cli": "esno scripts/publish.ts",
-    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
+    "commit:verify": "esno scripts/verify-commit.ts"
   },
   "dependencies": {
     "enquirer": "^2.4.0",
@@ -70,7 +70,7 @@
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm lint-staged",
-    "commit-msg": "node scripts/verify-commit"
+    "commit-msg": "pnpm run commit:verify"
   },
   "lint-staged": {
     "*.{js,ts}": [
